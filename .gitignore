@@ -39,3 +39,9 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+CLAUDE.local.md
+
+
+.claude/
+.windsurf/
+.skills/
