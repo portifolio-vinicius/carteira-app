@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <defs>
+    <style>
+      .arrow-green { fill: #00B66E; }
+      .coin-gold-dark { fill: #F4C400; }
+      .coin-gold-light { fill: #FFD924; }
+      .coin-shadow { fill: #E5A900; }
+      .coin-center { fill: #FFE246; }
+      .currency-symbol { fill: #D69700; font-family: 'Arial Black', 'Arial', sans-serif; font-weight: 900; font-size: 200px; text-anchor: middle; dominant-baseline: central; }
+    </style>
+  </defs>
+
+  <g transform="translate(500, 500)">
+    
+    <path class="arrow-green" d="M -131,-342 
+             A 365,365 0 0,0 -347,-114
+             A 365,365 0 0,0 -344,124 
+             L -301,84 
+             A 310,310 0 0,1 -303,-97
+             A 310,310 0 0,1 -121,-291 
+             Z" />
+    <polygon class="arrow-green" points="-301,84 -400,125 -325,-1" />
+
+    <path class="arrow-green" d="M 131,342 
+             A 365,365 0 0,0 347,114
+             A 365,365 0 0,0 344,-124 
+             L 301,-84 
+             A 310,310 0 0,1 303,97
+             A 310,310 0 0,1 121,291 
+             Z" />
+    <polygon class="arrow-green" points="301,-84 400,-125 325,1" />
+
+    <circle cx="0" cy="0" r="230" class="coin-gold-dark" />
+    
+    <circle cx="0" cy="0" r="212" class="coin-gold-light" />
+    
+    <circle cx="0" cy="0" r="185" class="coin-gold-dark" />
+    <circle cx="0" cy="0" r="176" class="coin-center" />
+    
+    <path class="coin-shadow" d="M 0,-176 A 176,176 0 0,1 0,176 Z" />
+    
+    <circle cx="0" cy="0" r="148" class="coin-center" />
+
+    <text x="0" y="5" class="currency-symbol">$</text>
+    
+  </g>
+</svg>
