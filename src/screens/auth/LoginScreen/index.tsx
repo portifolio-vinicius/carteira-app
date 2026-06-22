@@ -1,0 +1,146 @@
+import { useState } from "react";
+import { View, Text, Switch } from "react-native";
+import { AuthNavigationProp } from "../../../types/shared/Navigation";
+import { useAuth } from "../../../config/AuthContext";
+import { ScreenWrapper } from "../../../components/ScreenWrapper";
+import { AuthHeader } from "../../../components/AuthHeader";
+import { ErrorBanner } from "../../../components/ErrorBanner";
+import { FormField } from "../../../components/FormField";
+import { PasswordInput } from "../../../components/PasswordInput";
+import { Button } from "../../../components/Button";
+import { TextLink } from "../../../components/TextLink";
+import { FooterRow } from "../../../components/FooterRow";
+import { LogoSvg } from "../../../components/LogoSvg";
+import { colors } from "../../../config/tokens";
+import { styles } from "./styles";
+
+type Props = {
+  navigation: AuthNavigationProp<"Login">;
+};
+
+interface FieldErrors {
+  email?: string;
+  password?: string;
+}
+
+function validateEmail(email: string): string | undefined {
+  if (!email.trim()) return "Email é obrigatório.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return "Formato de email inválido.";
+}
+
+function validatePassword(password: string): string | undefined {
+  if (!password) return "Senha é obrigatória.";
+  if (password.length < 6) return "Senha deve ter pelo menos 6 caracteres.";
+}
+
+export function LoginScreen({ navigation }: Props) {
+  const { signIn } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+
+  function validate(): boolean {
+    const errors: FieldErrors = {
+      email: validateEmail(email),
+      password: validatePassword(password),
+    };
+    setFieldErrors(errors);
+    return !errors.email && !errors.password;
+  }
+
+  async function handleLogin() {
+    setError(null);
+    if (!validate()) return;
+
+    setIsLoading(true);
+    try {
+      await signIn({ email: email.trim().toLowerCase(), password });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao fazer login.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function clearFieldError(field: keyof FieldErrors) {
+    setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+  }
+
+  return (
+    <ScreenWrapper>
+      <AuthHeader
+        logoComponent={<LogoSvg size={50} />}
+        title="Bem-vindo de volta"
+        subtitle="Entre na sua conta para continuar"
+      />
+
+      <ErrorBanner message={error} />
+
+      <View style={styles["form"]}>
+        <FormField
+          label="Email"
+          value={email}
+          onChangeText={(v) => {
+            setEmail(v);
+            clearFieldError("email");
+          }}
+          error={fieldErrors.email}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+          editable={!isLoading}
+          accessibilityLabel="Campo de email"
+          placeholder="seu@email.com"
+        />
+
+        <PasswordInput
+          label="Senha"
+          value={password}
+          onChangeText={(v) => {
+            setPassword(v);
+            clearFieldError("password");
+          }}
+          error={fieldErrors.password}
+          editable={!isLoading}
+          accessibilityLabel="Campo de senha"
+        />
+
+        <View style={styles["options-row"]}>
+          <View style={styles["remember-row"]}>
+            <Switch
+              value={rememberMe}
+              onValueChange={setRememberMe}
+              trackColor={{ false: colors.border, true: colors.primarySwitch }}
+              thumbColor={rememberMe ? colors.primary : colors.textDisabled}
+              style={styles["switch"]}
+              accessibilityLabel="Lembrar-me"
+            />
+            <Text style={styles["remember-text"]}>Lembrar-me</Text>
+          </View>
+          <TextLink onPress={() => navigation.navigate("ForgotPassword")}>
+            Esqueceu a senha?
+          </TextLink>
+        </View>
+
+        <Button label="ENTRAR" onPress={handleLogin} loading={isLoading} />
+
+        <View style={styles["divider"]}>
+          <View style={styles["divider__line"]} />
+          <Text style={styles["divider__label"]}>ou</Text>
+          <View style={styles["divider__line"]} />
+        </View>
+
+        <FooterRow
+          text="Não tem uma conta? "
+          linkText="Criar conta"
+          onPress={() => navigation.navigate("Register")}
+        />
+      </View>
+    </ScreenWrapper>
+  );
+}
