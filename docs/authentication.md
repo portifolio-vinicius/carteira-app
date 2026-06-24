@@ -185,6 +185,48 @@ Usuário continua logado sem precisar autenticar novamente
 | Navegação | selectAuthState | RootNavigator | - |
 | Persistência | redux-persist, AsyncStorage | - | - |
 
+## Erros Comuns em Gerenciamento de Estado
+
+### 1. Race Condition na Inicialização
+**Problema:**
+- Navegar antes do estado estar reidratado
+- Usuário vê tela de login por milissegundos antes de ir para Home
+
+**Solução:**
+- Usar `isLoading` (linha 17 do doc) e `PersistGate` para bloquear navegação
+
+### 2. Estado Dessincronizado
+**Problema:**
+- Redux diz que está logado, mas AsyncStorage foi limpo manualmente
+- AsyncStorage tem dados, mas Redux foi resetado
+
+**Solução:**
+- redux-persist garante sincronia automática
+
+### 3. Memória Vazada no AsyncStorage
+**Problema:**
+- Não limpar dados no logout (linha 71 do doc)
+- Dados de usuários antigos ficam acumulando
+
+**Solução:**
+- `clearAuth` deve limpar tudo do AsyncStorage
+
+### 4. Falha na Tipagem do Estado Reidratado
+**Problema:**
+- AsyncStorage retorna string, Redux espera objeto
+- Erro de tipo ao restaurar estado
+
+**Solução:**
+- Configurar `transform` no redux-persist para serializar/deserializar corretamente
+
+### 5. Navegação Baseada em Estado Obsoleto
+**Problema:**
+- Componente navega antes do thunk terminar
+- Usuário clicou logout mas navegação já foi disparada
+
+**Solução:**
+- Usar `useEffect` com dependência no seletor `isAuthenticated` (linha 83-89)
+
 ## Arquivos Relacionados
 - `src/store/index.ts` - Configuração do store Redux
 - `src/slices/authSlice.ts` - Estado de autenticação

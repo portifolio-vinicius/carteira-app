@@ -155,6 +155,20 @@ function save(data: Data) {
 }
 ```
 
+## Comentários no Código
+- **SEMPRE** adicione comentários explicando a lógica pensada em pontos relevantes
+- Comentários devem responder "por que" e não "o que" (o código já diz o que)
+- Foque em decisões de negócio, trade-offs, e razões para implementações específicas
+
+```ts
+// ❌ - comentário redundante
+const user = getUser(); // pega o usuário
+
+// ✅ - comentário explicativo
+// Usa cache para evitar chamadas repetidas à API (trade-off: memória vs latência)
+const user = getCachedUser();
+```
+
 ## Segredos e Variáveis de Ambiente
 - **NUNCA** coloque chaves de API, tokens, URLs de ambiente ou qualquer segredo diretamente no código
 - **SEMPRE** use variáveis de ambiente via `.env` e acesse com `process.env.NOME_VAR`

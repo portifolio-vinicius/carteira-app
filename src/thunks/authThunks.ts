@@ -2,6 +2,7 @@ import { AppDispatch } from "../store";
 import { setUser, clearAuth, setLoading, setError } from "../slices/authSlice";
 import { login as apiLogin, register as apiRegister } from "../api/authApi";
 import { ILoginRequest, IRegisterRequest } from "../types/domain/Auth";
+import { persistor } from "../store";
 
 export const loginThunk =
   (data: ILoginRequest) => async (dispatch: AppDispatch) => {
@@ -31,6 +32,8 @@ export const registerThunk =
     }
   };
 
-export const logoutThunk = () => (dispatch: AppDispatch) => {
+export const logoutThunk = () => async (dispatch: AppDispatch) => {
   dispatch(clearAuth());
+  // Limpa todo o AsyncStorage para evitar vazamento de dados de sessões anteriores
+  await persistor.purge();
 };

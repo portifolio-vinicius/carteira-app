@@ -10,6 +10,7 @@ import { IApiResponse } from "../types/shared/ApiResponse";
 
 type UserRecord = IUser & { password: string; resetToken: string | null };
 
+// Wrapper para fetch com tratamento de erros HTTP centralizado
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     headers: { "Content-Type": "application/json" },
@@ -24,6 +25,7 @@ async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+// Remove dados sensíveis (senha, resetToken) antes de retornar usuário ao cliente
 function toSafeUser(record: UserRecord): IUser {
   return {
     id: record.id,
@@ -33,6 +35,7 @@ function toSafeUser(record: UserRecord): IUser {
   };
 }
 
+// Busca usuário por email e valida senha antes de autenticar
 export async function login(data: ILoginRequest): Promise<IApiResponse<IUser>> {
   const users = await fetchJson<UserRecord[]>(routes.users.byEmail(data.email));
 
@@ -47,6 +50,7 @@ export async function login(data: ILoginRequest): Promise<IApiResponse<IUser>> {
   return { success: true, data: toSafeUser(users[0]) };
 }
 
+// Verifica se email já existe antes de criar novo usuário
 export async function register(
   data: IRegisterRequest,
 ): Promise<IApiResponse<IUser>> {
@@ -74,6 +78,7 @@ export async function register(
   return { success: true, data: toSafeUser(created) };
 }
 
+// Gera token de reset e armazena no usuário para validação posterior
 export async function forgotPassword(
   data: IForgotPasswordRequest,
 ): Promise<IApiResponse<{ userId: string; resetToken: string }>> {
@@ -97,6 +102,7 @@ export async function forgotPassword(
   };
 }
 
+// Atualiza senha e limpa token de reset para evitar reuso
 export async function resetPassword(
   data: IResetPasswordRequest,
 ): Promise<IApiResponse<IUser>> {

@@ -55,12 +55,11 @@ export function ForgotPasswordScreen({ navigation }: Props) {
 
     countdownRef.current = setInterval(() => {
       setCountdown((c) => {
-        if (c <= 1) {
-          if (countdownRef.current) clearInterval(countdownRef.current);
-          setCanResend(true);
-          return 0;
-        }
-        return c - 1;
+        if (c > 1) return c - 1;
+        
+        if (countdownRef.current) clearInterval(countdownRef.current);
+        setCanResend(true);
+        return 0;
       });
     }, 1000);
   }

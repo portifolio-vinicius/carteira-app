@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -16,6 +16,8 @@ import {
   AuthStackParamList,
   MainStackParamList,
 } from "./src/types/shared/Navigation";
+import { useEffect } from "react";
+import { NavigationProp } from "@react-navigation/native";
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -58,9 +60,21 @@ function MainNavigator() {
 
 function RootNavigator() {
   const { isAuthenticated, isLoading } = useAppSelector(selectAuthState);
-  
+  const navigation = useNavigation<NavigationProp<AuthStackParamList & MainStackParamList>>();
+
+  // Reseta navegação quando estado de autenticação muda para evitar navegação baseada em estado obsoleto
+  useEffect(() => {
+    if (isLoading) return;
+
+    const targetRoute = isAuthenticated ? "Home" : "Login";
+    navigation.reset({
+      index: 0,
+      routes: [{ name: targetRoute }],
+    });
+  }, [isAuthenticated, isLoading, navigation]);
+
   if (isLoading) return <LoadingScreen />;
-  
+
   return (
     <NavigationContainer>
       {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}

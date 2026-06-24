@@ -52,19 +52,19 @@ function validate(
   const errors: FieldErrors = {};
 
   if (!name.trim()) errors.name = "Nome é obrigatório.";
-  else if (name.trim().length < 3)
+  if (name.trim().length > 0 && name.trim().length < 3)
     errors.name = "Nome deve ter pelo menos 3 caracteres.";
 
   if (!email.trim()) errors.email = "Email é obrigatório.";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+  if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     errors.email = "Formato de email inválido.";
 
   if (!password) errors.password = "Senha é obrigatória.";
-  else if (password.length < 6)
+  if (password && password.length < 6)
     errors.password = "Senha deve ter pelo menos 6 caracteres.";
 
   if (!confirmPassword) errors.confirmPassword = "Confirmação é obrigatória.";
-  else if (confirmPassword !== password)
+  if (confirmPassword && confirmPassword !== password)
     errors.confirmPassword = "As senhas não conferem.";
 
   if (!acceptedTerms)
