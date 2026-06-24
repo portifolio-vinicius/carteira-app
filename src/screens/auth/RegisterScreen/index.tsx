@@ -109,11 +109,13 @@ export function RegisterScreen({ navigation }: Props) {
     if (hasErrors(errors)) return;
 
     try {
-      await dispatch(registerThunk({
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        password,
-      }));
+      await dispatch(
+        registerThunk({
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          password,
+        }),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao criar conta.");
     }
@@ -142,6 +144,7 @@ export function RegisterScreen({ navigation }: Props) {
           autoCapitalize="words"
           editable={!isLoading}
           accessibilityLabel="Campo de nome completo"
+          testID="register__name-input"
         />
 
         <FormField
@@ -158,6 +161,7 @@ export function RegisterScreen({ navigation }: Props) {
           autoCorrect={false}
           editable={!isLoading}
           accessibilityLabel="Campo de email"
+          testID="register__email-input"
         />
 
         <PasswordInput
@@ -170,6 +174,7 @@ export function RegisterScreen({ navigation }: Props) {
           error={fieldErrors.password}
           editable={!isLoading}
           accessibilityLabel="Campo de senha"
+          testID="register__password-input"
         />
 
         {password.length > 0 && (
@@ -204,6 +209,7 @@ export function RegisterScreen({ navigation }: Props) {
           error={fieldErrors.confirmPassword}
           editable={!isLoading}
           accessibilityLabel="Campo de confirmação de senha"
+          testID="register__confirm-input"
         />
 
         {confirmPassword.length > 0 && (
@@ -256,12 +262,14 @@ export function RegisterScreen({ navigation }: Props) {
           label="CRIAR CONTA"
           onPress={handleRegister}
           loading={isLoading}
+          testID="register__submit-btn"
         />
 
         <FooterRow
           text="Já tem uma conta? "
           linkText="Entrar"
           onPress={() => navigation.navigate("Login")}
+          testID="register__login-link"
         />
       </View>
     </ScreenWrapper>

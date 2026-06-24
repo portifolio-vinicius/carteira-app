@@ -14,7 +14,11 @@ export function DetailsScreen({ navigation, route }: Props) {
     <View style={styles["screen__container"]}>
       <Text style={styles["screen__title"]}>Detalhes</Text>
       <Text style={styles["screen__info"]}>Usuário ID: {userId}</Text>
-      <Button label="Voltar" onPress={() => navigation.goBack()} />
+      <Button
+        testID="details__back-btn"
+        label="Voltar"
+        onPress={() => navigation.goBack()}
+      />
     </View>
   );
 }

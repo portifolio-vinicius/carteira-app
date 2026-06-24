@@ -9,6 +9,7 @@ type Props = {
   variant?: Variant;
   loading?: boolean;
   disabled?: boolean;
+  testID?: string;
 };
 
 const variantStyle: Record<Variant, object> = {
@@ -23,6 +24,7 @@ export function Button({
   variant = "primary",
   loading = false,
   disabled = false,
+  testID,
 }: Props) {
   const isDisabled = disabled || loading;
 
@@ -36,6 +38,7 @@ export function Button({
       onPress={onPress}
       disabled={isDisabled}
       activeOpacity={0.85}
+      testID={testID}
     >
       {loading ? (
         <ActivityIndicator color="#fff" />

@@ -23,6 +23,7 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      state.isLoading = false;
       state.error = null;
     },
     clearAuth: (state) => {
@@ -44,10 +45,8 @@ export const { setUser, clearAuth, setLoading, setError } = authSlice.actions;
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.isAuthenticated;
-export const selectIsLoading = (state: RootState) =>
-  state.auth.isLoading;
-export const selectAuthError = (state: RootState) =>
-  state.auth.error;
+export const selectIsLoading = (state: RootState) => state.auth.isLoading;
+export const selectAuthError = (state: RootState) => state.auth.error;
 export const selectAuthState = (state: RootState) => state.auth;
 
 export default authSlice;

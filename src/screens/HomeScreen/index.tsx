@@ -23,6 +23,7 @@ export function HomeScreen({ navigation }: Props) {
       <Text style={styles.welcome}>Olá, {user?.name ?? "usuário"} 👋</Text>
 
       <TouchableOpacity
+        testID="home__details-btn"
         style={styles.button}
         onPress={() => navigation.navigate("Details", { userId: "123" })}
       >
@@ -30,6 +31,7 @@ export function HomeScreen({ navigation }: Props) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="home__profile-btn"
         style={[styles.button, styles["button--secondary"]]}
         onPress={() => navigation.navigate("Profile")}
       >
@@ -37,6 +39,7 @@ export function HomeScreen({ navigation }: Props) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="home__logout-btn"
         style={[styles.button, styles["button--logout"]]}
         onPress={handleLogout}
       >

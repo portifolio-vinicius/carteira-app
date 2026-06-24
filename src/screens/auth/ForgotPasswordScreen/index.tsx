@@ -56,7 +56,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
     countdownRef.current = setInterval(() => {
       setCountdown((c) => {
         if (c > 1) return c - 1;
-        
+
         if (countdownRef.current) clearInterval(countdownRef.current);
         setCanResend(true);
         return 0;
@@ -170,15 +170,20 @@ export function ForgotPasswordScreen({ navigation }: Props) {
             autoCapitalize="none"
             autoCorrect={false}
             editable={!isSubmittingEmail}
+            testID="forgot__email-input"
           />
 
           <Button
             label="ENVIAR INSTRUÇÕES"
             onPress={handleSendEmail}
             loading={isSubmittingEmail}
+            testID="forgot__send-btn"
           />
 
-          <TextLink onPress={() => navigation.navigate("Login")}>
+          <TextLink
+            onPress={() => navigation.navigate("Login")}
+            testID="forgot__back-link"
+          >
             ← Voltar ao login
           </TextLink>
         </View>
@@ -227,6 +232,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
             label="REDEFINIR SENHA"
             onPress={handleResetPassword}
             loading={isSubmittingPassword}
+            testID="forgot__confirm-btn"
           />
 
           <View style={styles["resend-row"]}>

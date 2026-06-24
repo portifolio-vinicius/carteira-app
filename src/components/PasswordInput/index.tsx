@@ -10,6 +10,7 @@ type Props = {
   error?: string;
   editable?: boolean;
   accessibilityLabel?: string;
+  testID?: string;
 };
 
 export function PasswordInput({
@@ -19,6 +20,7 @@ export function PasswordInput({
   error,
   editable = true,
   accessibilityLabel,
+  testID,
 }: Props) {
   const [visible, setVisible] = useState(false);
 
@@ -40,6 +42,7 @@ export function PasswordInput({
           secureTextEntry={!visible}
           editable={editable}
           accessibilityLabel={accessibilityLabel}
+          testID={testID}
         />
         <TouchableOpacity
           style={styles["field__eye"]}

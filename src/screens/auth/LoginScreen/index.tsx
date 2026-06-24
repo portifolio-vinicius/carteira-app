@@ -61,7 +61,9 @@ export function LoginScreen({ navigation }: Props) {
     if (!validate()) return;
 
     try {
-      await dispatch(loginThunk({ email: email.trim().toLowerCase(), password }));
+      await dispatch(
+        loginThunk({ email: email.trim().toLowerCase(), password }),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao fazer login.");
     }
@@ -96,6 +98,7 @@ export function LoginScreen({ navigation }: Props) {
           editable={!isLoading}
           accessibilityLabel="Campo de email"
           placeholder="seu@email.com"
+          testID="login__email-input"
         />
 
         <PasswordInput
@@ -108,6 +111,7 @@ export function LoginScreen({ navigation }: Props) {
           error={fieldErrors.password}
           editable={!isLoading}
           accessibilityLabel="Campo de senha"
+          testID="login__password-input"
         />
 
         <View style={styles["options-row"]}>
@@ -119,15 +123,24 @@ export function LoginScreen({ navigation }: Props) {
               thumbColor={rememberMe ? colors.primary : colors.textDisabled}
               style={styles["switch"]}
               accessibilityLabel="Lembrar-me"
+              testID="login__remember-switch"
             />
             <Text style={styles["remember-text"]}>Lembrar-me</Text>
           </View>
-          <TextLink onPress={() => navigation.navigate("ForgotPassword")}>
+          <TextLink
+            onPress={() => navigation.navigate("ForgotPassword")}
+            testID="login__forgot-link"
+          >
             Esqueceu a senha?
           </TextLink>
         </View>
 
-        <Button label="ENTRAR" onPress={handleLogin} loading={isLoading} />
+        <Button
+          label="ENTRAR"
+          onPress={handleLogin}
+          loading={isLoading}
+          testID="login__submit-btn"
+        />
 
         <View style={styles["divider"]}>
           <View style={styles["divider__line"]} />
@@ -139,6 +152,7 @@ export function LoginScreen({ navigation }: Props) {
           text="Não tem uma conta? "
           linkText="Criar conta"
           onPress={() => navigation.navigate("Register")}
+          testID="login__register-link"
         />
       </View>
     </ScreenWrapper>

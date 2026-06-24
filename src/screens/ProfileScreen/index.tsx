@@ -23,8 +23,16 @@ export function ProfileScreen({ navigation }: Props) {
       <Text style={styles["screen__title"]}>Perfil</Text>
       <Text style={styles["screen__name"]}>{user?.name || "Usuário"}</Text>
       <Text style={styles["screen__email"]}>{user?.email || ""}</Text>
-      <Button label="Sair" onPress={handleLogout} />
-      <Button label="Voltar" onPress={() => navigation.goBack()} />
+      <Button
+        testID="profile__logout-btn"
+        label="Sair"
+        onPress={handleLogout}
+      />
+      <Button
+        testID="profile__back-btn"
+        label="Voltar"
+        onPress={() => navigation.goBack()}
+      />
     </View>
   );
 }
