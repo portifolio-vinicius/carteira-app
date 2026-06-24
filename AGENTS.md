@@ -103,11 +103,6 @@ src/
 
 Se precisar de restart após mudanças, avise o usuário para fechar e reiniciar manualmente.
 
-## Testing
-- **Tool**: Maestro for screen testing
-- **Platform**: Run via Expo on mobile device
-- **Focus**: Screen navigation and UI testing
-
 ## Workflows com Subagentes
 @.claude/PARALLEL_WORKFLOWS.md
 

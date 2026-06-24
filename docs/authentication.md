@@ -225,7 +225,9 @@ Usuário continua logado sem precisar autenticar novamente
 - Usuário clicou logout mas navegação já foi disparada
 
 **Solução:**
-- Usar `useEffect` com dependência no seletor `isAuthenticated` (linha 83-89)
+- Navegação condicional no RootNavigator baseada em `isAuthenticated` e `isLoading`
+- `PersistGate` bloqueia renderização até reidratação completar
+- Isso garante que navegação só ocorre quando estado está atualizado
 
 ## Arquivos Relacionados
 - `src/store/index.ts` - Configuração do store Redux

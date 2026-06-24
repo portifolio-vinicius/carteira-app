@@ -4,10 +4,10 @@
     "slug": "react-native-navegacao-expo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo-app.svg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo-app.svg",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#E6F4FE"
     },
@@ -17,12 +17,14 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/logo-app.svg"
+        "foregroundImage": "./assets/android-icon-foreground.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.vini_franco.reactnativenavegacaoexpo",
+      "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/logo-app.svg"
+      "favicon": "./assets/favicon.png"
     }
   }
 }
