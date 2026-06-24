@@ -51,6 +51,12 @@ button: { ... },
 style={[styles.button, styles["button--secondary"]]}
 ```
 
+## Estilos Inline
+
+- **NUNCA** use estilos inline (`style={{ ... }}`)
+- **SEMPRE** defina estilos no arquivo `styles.ts` usando `StyleSheet.create`
+- Isso garante consistência, performance e manutenibilidade do código
+
 ## Design Tokens
 
 Arquivo central de tokens: `src/config/tokens.ts`  

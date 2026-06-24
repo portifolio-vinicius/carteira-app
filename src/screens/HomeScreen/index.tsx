@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { NavigationProp } from "../../types/shared/Navigation";
-import { useAuth } from "../../config/AuthContext";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
+import { logoutThunk } from "../../thunks/authThunks";
+import { selectUser } from "../../slices/authSlice";
 import { styles } from "./styles";
 
 type Props = {
@@ -8,7 +10,12 @@ type Props = {
 };
 
 export function HomeScreen({ navigation }: Props) {
-  const { user, signOut } = useAuth();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+
+  function handleLogout() {
+    dispatch(logoutThunk());
+  }
 
   return (
     <View style={styles.container}>
@@ -31,7 +38,7 @@ export function HomeScreen({ navigation }: Props) {
 
       <TouchableOpacity
         style={[styles.button, styles["button--logout"]]}
-        onPress={signOut}
+        onPress={handleLogout}
       >
         <Text style={styles["button__text"]}>Sair</Text>
       </TouchableOpacity>

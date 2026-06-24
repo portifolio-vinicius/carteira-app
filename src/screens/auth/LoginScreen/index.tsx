@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { View, Text, Switch } from "react-native";
 import { AuthNavigationProp } from "../../../types/shared/Navigation";
-import { useAuth } from "../../../config/AuthContext";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
+import { loginThunk } from "../../../thunks/authThunks";
+import { selectIsLoading, selectAuthError } from "../../../slices/authSlice";
 import { ScreenWrapper } from "../../../components/ScreenWrapper";
 import { AuthHeader } from "../../../components/AuthHeader";
 import { ErrorBanner } from "../../../components/ErrorBanner";
@@ -35,12 +37,13 @@ function validatePassword(password: string): string | undefined {
 }
 
 export function LoginScreen({ navigation }: Props) {
-  const { signIn } = useAuth();
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(selectIsLoading);
+  const authError = useAppSelector(selectAuthError);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
@@ -57,13 +60,10 @@ export function LoginScreen({ navigation }: Props) {
     setError(null);
     if (!validate()) return;
 
-    setIsLoading(true);
     try {
-      await signIn({ email: email.trim().toLowerCase(), password });
+      await dispatch(loginThunk({ email: email.trim().toLowerCase(), password }));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao fazer login.");
-    } finally {
-      setIsLoading(false);
     }
   }
 

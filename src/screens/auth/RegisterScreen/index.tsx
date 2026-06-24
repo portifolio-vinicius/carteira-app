@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { AuthNavigationProp } from "../../../types/shared/Navigation";
-import { useAuth } from "../../../config/AuthContext";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
+import { registerThunk } from "../../../thunks/authThunks";
+import { selectIsLoading, selectAuthError } from "../../../slices/authSlice";
 import { ScreenWrapper } from "../../../components/ScreenWrapper";
 import { AuthHeader } from "../../../components/AuthHeader";
 import { ErrorBanner } from "../../../components/ErrorBanner";
@@ -76,14 +78,15 @@ function hasErrors(errors: FieldErrors): boolean {
 }
 
 export function RegisterScreen({ navigation }: Props) {
-  const { signUp } = useAuth();
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(selectIsLoading);
+  const authError = useAppSelector(selectAuthError);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
@@ -105,17 +108,14 @@ export function RegisterScreen({ navigation }: Props) {
     setFieldErrors(errors);
     if (hasErrors(errors)) return;
 
-    setIsLoading(true);
     try {
-      await signUp({
+      await dispatch(registerThunk({
         name: name.trim(),
         email: email.trim().toLowerCase(),
         password,
-      });
+      }));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao criar conta.");
-    } finally {
-      setIsLoading(false);
     }
   }
 
