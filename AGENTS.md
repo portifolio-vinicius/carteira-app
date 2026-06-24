@@ -26,6 +26,10 @@ src/
 - App: `npm start`
 - API mock: `npm run api`
 
+## Qualidade de código
+
+Todo código deve seguir princípios de manutenibilidade e evitar redundâncias conforme a necessidade: SOLID, DRY, KISS, YAGNI, Clean Code. Aplicar com bom senso — sem over-engineering.
+
 ## Validação obrigatória antes de concluir qualquer tarefa
 ```bash
 npx tsc --noEmit && npx eslint src/ --ext .ts,.tsx
