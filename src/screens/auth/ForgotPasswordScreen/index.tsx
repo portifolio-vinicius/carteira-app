@@ -176,7 +176,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
   }
 
   return (
-    <WaveLayout>
+    <WaveLayout scrollable>
       <StepIndicator current={step} />
 
       {step === "email" && (
@@ -308,6 +308,9 @@ export function ForgotPasswordScreen({ navigation }: Props) {
           </View>
 
           <TextLink onPress={() => setStep("email")}>← Alterar email</TextLink>
+          <TextLink onPress={() => navigation.navigate("Login")}>
+            ← Voltar ao login
+          </TextLink>
         </View>
       )}
 

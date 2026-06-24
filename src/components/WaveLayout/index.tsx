@@ -14,7 +14,7 @@ import { GradientVariant, gradients, colors } from "../../config/tokens";
 
 const { width: W, height: H } = Dimensions.get("window");
 const WAVE_H = 90;
-const SPLIT = 0.46;
+const SPLIT = 0.28;
 
 function organicWavePath(): string {
   const top = H * SPLIT;
@@ -64,7 +64,12 @@ export function WaveLayout({
         pointerEvents="none"
       >
         <Svg width={W} height={WAVE_H}>
-          <Path d={organicWavePath()} fill={colors.white} />
+          <Path
+            d={organicWavePath()}
+            fill={colors.white}
+            stroke="none"
+            strokeWidth={0}
+          />
         </Svg>
       </View>
 
@@ -73,20 +78,33 @@ export function WaveLayout({
         style={styles.kav}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView
-          scrollEnabled={scrollable}
-          contentContainerStyle={[
-            styles.scroll,
-            {
-              paddingTop: contentPaddingTop + insets.top,
-              paddingBottom: insets.bottom + 24,
-            },
-          ]}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          {children}
-        </ScrollView>
+        {scrollable ? (
+          <ScrollView
+            contentContainerStyle={[
+              styles.scroll,
+              {
+                paddingTop: contentPaddingTop + insets.top,
+                paddingBottom: insets.bottom + 24,
+              },
+            ]}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            {children}
+          </ScrollView>
+        ) : (
+          <View
+            style={[
+              styles.scroll,
+              {
+                paddingTop: contentPaddingTop + insets.top,
+                paddingBottom: insets.bottom + 24,
+              },
+            ]}
+          >
+            {children}
+          </View>
+        )}
       </KeyboardAvoidingView>
     </View>
   );
