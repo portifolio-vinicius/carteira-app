@@ -1,7 +1,7 @@
-import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./src/store";
@@ -27,10 +27,13 @@ const Tab = createBottomTabNavigator<TabParamList>();
 
 const TAB_ICONS: Record<
   keyof TabParamList,
-  { active: string; inactive: string }
+  {
+    active: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
+    inactive: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
+  }
 > = {
-  Home: { active: "🏠", inactive: "🏠" },
-  Profile: { active: "👤", inactive: "👤" },
+  Home: { active: "home", inactive: "home-outline" },
+  Profile: { active: "account", inactive: "account-outline" },
 };
 
 function TabNavigator() {
@@ -46,12 +49,16 @@ function TabNavigator() {
           height: 60,
         },
         tabBarLabelStyle: { fontSize: 12 },
-        tabBarIcon: ({ focused }) => (
-          <Text style={{ fontSize: 22 }}>
-            {focused
-              ? TAB_ICONS[route.name].active
-              : TAB_ICONS[route.name].inactive}
-          </Text>
+        tabBarIcon: ({ focused, color }) => (
+          <MaterialCommunityIcons
+            name={
+              focused
+                ? TAB_ICONS[route.name].active
+                : TAB_ICONS[route.name].inactive
+            }
+            size={24}
+            color={color}
+          />
         ),
       })}
     >
