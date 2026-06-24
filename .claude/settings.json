@@ -5,7 +5,17 @@
   "enabledPlugins": {
     "expo@claude-plugins-official": true
   },
-  "hooks": {
+  "hooks": {  "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Minimize o consumo de tokens e maximize a eficiência das tarefas.'"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",

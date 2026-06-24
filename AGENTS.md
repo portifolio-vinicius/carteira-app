@@ -1,187 +1,67 @@
-# Project Configuration
+# Project Context
+
+> Minimize o consumo de tokens e maximize a eficiência das tarefas.
 
 ## Stack
-- **Expo**: 56.0.12
-- **React Native**: 0.85.3
-- **React**: 19.2.3
-- **TypeScript**: 6.0.3
+- Expo 54 / React Native 0.81.5 / TypeScript
+- Redux Toolkit + redux-persist
+- React Navigation (native-stack)
+- json-server (mock API em http://localhost:3000)
 
-## Key Dependencies
-- @react-navigation/native: 7.3.3
-- @react-navigation/native-stack: 7.17.5
-- react-native-safe-area-context: 5.7.0
-- react-native-screens: 4.25.2
-
-## Project Structure
+## Estrutura
 ```
 src/
-├── api/          # API calls and services
-├── components/   # Componentes reutilizáveis (folder-per-component)
-├── config/       # tokens.ts, routes.ts, apiConfig.ts, AuthContext.tsx
-├── helpers/      # Utility functions
-├── screens/      # Telas (folder-per-component)
-├── shared/       # Shared components and constants
-└── types/        # TypeScript type definitions
+├── api/          ← fetch calls (usa routes.ts, nunca URL direta)
+├── components/   ← folder-per-component: pasta + index.tsx + styles.ts
+├── config/       ← tokens.ts, routes.ts, apiConfig.ts
+├── screens/      ← folder-per-component, subpastas por domínio (auth/)
+├── slices/       ← Redux slices
+├── thunks/       ← Redux thunks
+├── store/        ← configureStore
+├── hooks/        ← useAppDispatch, etc.
+└── types/        ← domain/ e shared/
 ```
 
-## Organização de Componentes e Telas (Folder-per-component)
-
-Toda tela (`src/screens/`) e todo componente (`src/components/`) deve ser uma pasta. Nunca criar como arquivo único solto.
-
-```
-src/screens/HomeScreen/      src/components/Button/
-├── index.tsx                ├── index.tsx
-└── styles.ts                └── styles.ts
-```
-
-## Nomenclatura de Estilos (BEM)
-
-Classes no `StyleSheet` seguem BEM com `kebab-case` entre aspas:
-- Bloco: `button`
-- Elemento: `"button__text"`
-- Modificador: `"button--secondary"`, `"button--danger"`
-
-```ts
-// styles.ts
-button: { ... },
-"button--secondary": { backgroundColor: colors.secondary },
-"button__text": { color: colors.white },
-
-// index.tsx — acesso via colchetes para nomes com hífen
-style={[styles.button, styles["button--secondary"]]}
-```
-
-## Estilos Inline
-
-- **NUNCA** use estilos inline (`style={{ ... }}`)
-- **SEMPRE** defina estilos no arquivo `styles.ts` usando `StyleSheet.create`
-- Isso garante consistência, performance e manutenibilidade do código
-
-## Design Tokens
-
-Arquivo central de tokens: `src/config/tokens.ts`  
-(`/home/vinicius/Downloads/estudo/aprendendo/mobile/react-native-navegacao-expo/src/config/tokens.ts`)
-
-- **NUNCA** hardcode cores, espaçamentos, fontes ou raios — use sempre este arquivo
-- **SEMPRE** adicione novos valores aqui antes de usá-los em qualquer componente ou tela
-
-```ts
-import { colors, spacing, typography, radius } from "../../config/tokens";
-```
-
-## Rotas do BFF
-
-Toda URL de API deve vir de `src/config/routes.ts`. Nunca escrever template string de URL dentro de `src/api/`.
-
-```ts
-import { routes } from "../config/routes";
-routes.users.byEmail(email)
-routes.users.byId(id)
-```
-
-## Estrutura Criada
-
-```
-db.json                          ← banco mock com 2 usuários iniciais
-src/
-├── api/authApi.ts               ← CRUD real via fetch (GET/POST/PATCH/DELETE)
-├── config/
-│   ├── apiConfig.ts             ← URL base da API (configurável)
-│   └── AuthContext.tsx          ← contexto global de autenticação
-└── screens/auth/
-    ├── LoginScreen.tsx
-    ├── RegisterScreen.tsx
-    └── ForgotPasswordScreen.tsx
-```
-
-## API Mock Local (json-server)
-
-**O usuário controla manualmente a inicialização da API e do app.**
-
-- API: `npm run api` (inicia em http://localhost:3000)
+## Comandos
 - App: `npm start`
+- API mock: `npm run api`
 
-Se precisar de restart após mudanças, avise o usuário para fechar e reiniciar manualmente.
-
-## Workflows com Subagentes
-@.claude/PARALLEL_WORKFLOWS.md
-
-## Important Notes
-- Read Expo docs at https://docs.expo.dev/versions/v56.0.0/ before writing code
-- App runs on Expo Go for development and testing
-
-## Verificação de Qualidade de Código
-Antes de considerar qualquer tarefa concluída, execute:
+## Validação obrigatória antes de concluir qualquer tarefa
 ```bash
 npx tsc --noEmit && npx eslint src/ --ext .ts,.tsx
 ```
-- `tsc --noEmit` — checagem de tipos TypeScript
-- `eslint` — regras de código e estilo
-- Ambos devem passar sem erros antes de marcar a task como `completed`
 
-## Diretrizes de Eficiência
-- Minimize o consumo de tokens e maximize a eficiência das tarefas
-- Use comandos Linux (`grep`, `rg`, `find`, `awk`, `sed`) em vez de ler arquivos inteiros
-- Leia apenas o necessário — nunca arquivos completos quando parte resolve
+## Prompt de subagente — regras para o orquestrador
 
-## Diretrizes de TypeScript
-- **NUNCA** use `any` ou `unknown` — sempre defina tipos explícitos
-- Crie interfaces e types em `src/types/` para qualquer estrutura de dados nova
-- Erros de tipo devem ser resolvidos com tipagem correta, não com cast ou supressão
+Subagentes recebem este AGENTS.md automaticamente. O prompt do `Agent tool` deve conter **apenas**:
+1. A tarefa específica
+2. O formato de saída esperado
 
-## Tratamento de Erros
-- **NUNCA** use `try/catch` silencioso (catch vazio ou apenas `console.log`)
-- **SEMPRE** retorne ou lance erros explicitamente para que o chamador possa tratar
-- Use `try/catch` apenas para erros de I/O, rede ou lógica de negócio explícita — nunca para suprimir falhas de tipagem ou fluxo esperado
+NUNCA repetir no prompt: stack, estrutura de pastas, caminho do projeto, convenções — já estão aqui.
 
-## Fluxo de Controle — Programação Defensiva
-- **NUNCA** use `if/else` — prefira **early return** (guard clauses) e **ternário** para derivar valores
+```
+# ✅ Correto — só tarefa + formato
+"Liste todos os slices em src/slices/ e extraia os campos do initialState.
+Formato: - [slice]: campos=[...], padrão=[createAsyncThunk|manual]"
 
-```ts
-// ❌
-function save(data: Data) {
-  if (data) { persist(data); } else { throw new Error("sem dados"); }
-}
-
-// ✅
-function save(data: Data) {
-  if (!data) throw new Error("sem dados");
-  persist(data);
-}
+# ❌ Errado — repete contexto que o subagente já tem
+"Você é um subagente. Projeto: React Native + Expo em /home/...
+Stack: Redux Toolkit... Estrutura: src/slices/...
+Tarefa: liste os slices."
 ```
 
-## Comentários no Código
-- **SEMPRE** adicione comentários explicando a lógica pensada em pontos relevantes
-- Comentários devem responder "por que" e não "o que" (o código já diz o que)
-- Foque em decisões de negócio, trade-offs, e razões para implementações específicas
+## Padrões sempre ativos
+@.claude/skills/gestao-contexto.md
 
-```ts
-// ❌ - comentário redundante
-const user = getUser(); // pega o usuário
-
-// ✅ - comentário explicativo
-// Usa cache para evitar chamadas repetidas à API (trade-off: memória vs latência)
-const user = getCachedUser();
-```
-
-## Segredos e Variáveis de Ambiente
-- **NUNCA** coloque chaves de API, tokens, URLs de ambiente ou qualquer segredo diretamente no código
-- **SEMPRE** use variáveis de ambiente via `.env` e acesse com `process.env.NOME_VAR`
-- Adicione toda variável nova ao `.env.example` com valor placeholder
-
-## Padrão de Commits
-- Commits granulares conforme contexto das modificações
-- Mensagem em linguagem de negócio: o que foi feito e por que
-- Uma única frase por commit
-
-**Exemplos:**
-- `Adiciona validação de email no formulário de registro para evitar cadastros inválidos`
-- `Corrige rota de login para redirecionar corretamente após autenticação bem-sucedida`
-
-## Skills (Padrões Específicos do Projeto)
-@.claude/skills/folder-per-component.md
-@.claude/skills/bem-tokens.md
-@.claude/skills/tipagem-estrita.md
-@.claude/skills/programacao-defensiva.md
-@.claude/skills/rotas-bff.md
-@.claude/skills/roi-design.md
+## Skills de workflow disponíveis (invocar via /nome)
+- orquestrando-subagentes
+- clarificando-requisitos
+- planejando-tarefa
+- criando-tela
+- criando-feature
+- corrigindo-bug
+- refatorando
+- criando-componente
+- testando-browser — testa navegação/bug no browser, viewport celular, SEM exportar imagem
+- exportando-design — exporta screenshots das telas para docs/design-preview/, APENAS quando solicitado
+- commitando — analisa mudanças, decide granularidade e escreve commits em linguagem natural
