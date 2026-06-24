@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../config/tokens";
 import { styles } from "./styles";
 
@@ -11,7 +12,7 @@ type Props = {
   editable?: boolean;
   accessibilityLabel?: string;
   testID?: string;
-  leftIcon?: string;
+  leftIcon?: ReactNode;
 };
 
 export function PasswordInput({
@@ -35,7 +36,7 @@ export function PasswordInput({
           error ? styles["field__row--error"] : null,
         ]}
       >
-        {leftIcon && <Text style={styles["field__left-icon"]}>{leftIcon}</Text>}
+        {leftIcon && <View style={styles["field__left-icon"]}>{leftIcon}</View>}
         <TextInput
           style={styles["field__input"]}
           placeholder="••••••••"
@@ -53,7 +54,11 @@ export function PasswordInput({
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           accessibilityLabel={visible ? "Ocultar senha" : "Mostrar senha"}
         >
-          <Text style={styles["field__eye-icon"]}>{visible ? "🙈" : "👁️"}</Text>
+          <MaterialCommunityIcons
+            name={visible ? "eye-off-outline" : "eye-outline"}
+            size={20}
+            color={colors.textMuted}
+          />
         </TouchableOpacity>
       </View>
       {error !== undefined && (

@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AuthNavigationProp } from "../../../types/shared/Navigation";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 import { registerThunk } from "../../../thunks/authThunks";
 import { selectIsLoading, selectAuthError } from "../../../slices/authSlice";
-import { ScreenWrapper } from "../../../components/ScreenWrapper";
+import { WaveLayout } from "../../../components/WaveLayout";
 import { AuthHeader } from "../../../components/AuthHeader";
 import { ErrorBanner } from "../../../components/ErrorBanner";
 import { FormField } from "../../../components/FormField";
 import { PasswordInput } from "../../../components/PasswordInput";
 import { Button } from "../../../components/Button";
 import { FooterRow } from "../../../components/FooterRow";
-import { LogoSvg } from "../../../components/LogoSvg";
 import { colors } from "../../../config/tokens";
 import { styles } from "./styles";
 
@@ -122,9 +122,8 @@ export function RegisterScreen({ navigation }: Props) {
   }
 
   return (
-    <ScreenWrapper>
+    <WaveLayout scrollable>
       <AuthHeader
-        logoComponent={<LogoSvg size={50} />}
         title="Criar conta"
         subtitle="Preencha seus dados para se cadastrar"
       />
@@ -135,6 +134,13 @@ export function RegisterScreen({ navigation }: Props) {
         <FormField
           label="Nome completo"
           placeholder="Seu nome"
+          leftIcon={
+            <MaterialCommunityIcons
+              name="account-outline"
+              size={18}
+              color={colors.textMuted}
+            />
+          }
           value={name}
           onChangeText={(v) => {
             setName(v);
@@ -150,6 +156,13 @@ export function RegisterScreen({ navigation }: Props) {
         <FormField
           label="Email"
           placeholder="seu@email.com"
+          leftIcon={
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={18}
+              color={colors.textMuted}
+            />
+          }
           value={email}
           onChangeText={(v) => {
             setEmail(v);
@@ -166,6 +179,13 @@ export function RegisterScreen({ navigation }: Props) {
 
         <PasswordInput
           label="Senha"
+          leftIcon={
+            <MaterialCommunityIcons
+              name="lock-outline"
+              size={18}
+              color={colors.textMuted}
+            />
+          }
           value={password}
           onChangeText={(v) => {
             setPassword(v);
@@ -243,7 +263,11 @@ export function RegisterScreen({ navigation }: Props) {
             accessibilityLabel="Aceitar termos e condições"
           >
             {acceptedTerms && (
-              <Text style={styles["checkbox__checkmark"]}>✓</Text>
+              <MaterialCommunityIcons
+                name="check"
+                size={12}
+                color={colors.white}
+              />
             )}
           </TouchableOpacity>
           <Text style={styles["terms-text"]}>
@@ -259,7 +283,7 @@ export function RegisterScreen({ navigation }: Props) {
         )}
 
         <Button
-          label="CRIAR CONTA"
+          label="Criar conta"
           onPress={handleRegister}
           loading={isLoading}
           testID="register__submit-btn"
@@ -272,6 +296,6 @@ export function RegisterScreen({ navigation }: Props) {
           testID="register__login-link"
         />
       </View>
-    </ScreenWrapper>
+    </WaveLayout>
   );
 }

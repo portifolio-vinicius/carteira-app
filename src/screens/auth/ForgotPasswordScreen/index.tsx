@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AuthNavigationProp } from "../../../types/shared/Navigation";
 import { forgotPassword, resetPassword } from "../../../api/authApi";
-import { ScreenWrapper } from "../../../components/ScreenWrapper";
+import { WaveLayout } from "../../../components/WaveLayout";
 import { AuthHeader } from "../../../components/AuthHeader";
 import { ErrorBanner } from "../../../components/ErrorBanner";
 import { FormField } from "../../../components/FormField";
 import { PasswordInput } from "../../../components/PasswordInput";
 import { Button } from "../../../components/Button";
 import { TextLink } from "../../../components/TextLink";
+import { colors } from "../../../config/tokens";
 import { styles } from "./styles";
 
 type Props = {
@@ -18,6 +20,34 @@ type Props = {
 type Step = "email" | "newPassword" | "done";
 
 const RESEND_COOLDOWN = 60;
+
+const STEPS: Step[] = ["email", "newPassword", "done"];
+
+function StepIndicator({ current }: { current: Step }) {
+  const idx = STEPS.indexOf(current);
+  return (
+    <View style={styles.stepper}>
+      {STEPS.map((s, i) => (
+        <View key={s} style={styles["stepper__item"]}>
+          <View
+            style={[
+              styles["stepper__dot"],
+              i <= idx && styles["stepper__dot--active"],
+            ]}
+          />
+          {i < STEPS.length - 1 && (
+            <View
+              style={[
+                styles["stepper__line"],
+                i < idx && styles["stepper__line--active"],
+              ]}
+            />
+          )}
+        </View>
+      ))}
+    </View>
+  );
+}
 
 export function ForgotPasswordScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
@@ -146,11 +176,12 @@ export function ForgotPasswordScreen({ navigation }: Props) {
   }
 
   return (
-    <ScreenWrapper>
+    <WaveLayout>
+      <StepIndicator current={step} />
+
       {step === "email" && (
         <View style={styles.section}>
           <AuthHeader
-            icon="🔐"
             title="Recuperar senha"
             subtitle="Informe o email cadastrado e enviaremos as instruções de redefinição."
           />
@@ -159,6 +190,13 @@ export function ForgotPasswordScreen({ navigation }: Props) {
 
           <FormField
             label="Email"
+            leftIcon={
+              <MaterialCommunityIcons
+                name="email-outline"
+                size={18}
+                color={colors.textMuted}
+              />
+            }
             value={email}
             onChangeText={(v) => {
               setEmail(v);
@@ -173,7 +211,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
           />
 
           <Button
-            label="ENVIAR INSTRUÇÕES"
+            label="Enviar instruções"
             onPress={handleSendEmail}
             loading={isSubmittingEmail}
             testID="forgot__send-btn"
@@ -191,14 +229,19 @@ export function ForgotPasswordScreen({ navigation }: Props) {
       {step === "newPassword" && (
         <View style={styles.section}>
           <AuthHeader
-            icon="🔑"
             title="Código enviado!"
             subtitle="Simulando o link de redefinição — defina sua nova senha abaixo."
           />
 
           <View style={styles["info-card"]}>
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={18}
+              color={colors.infoBlue}
+              style={styles["info-card__icon"]}
+            />
             <Text style={styles["info-card__text"]}>
-              📧 Email enviado para{" "}
+              Email enviado para{" "}
               <Text style={styles["info-card__email"]}>{email}</Text>
             </Text>
           </View>
@@ -207,6 +250,13 @@ export function ForgotPasswordScreen({ navigation }: Props) {
 
           <PasswordInput
             label="Nova senha"
+            leftIcon={
+              <MaterialCommunityIcons
+                name="lock-outline"
+                size={18}
+                color={colors.textMuted}
+              />
+            }
             value={newPassword}
             onChangeText={(v) => {
               setNewPassword(v);
@@ -218,6 +268,13 @@ export function ForgotPasswordScreen({ navigation }: Props) {
 
           <PasswordInput
             label="Confirmar nova senha"
+            leftIcon={
+              <MaterialCommunityIcons
+                name="lock-check-outline"
+                size={18}
+                color={colors.textMuted}
+              />
+            }
             value={confirmNewPassword}
             onChangeText={(v) => {
               setConfirmNewPassword(v);
@@ -228,7 +285,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
           />
 
           <Button
-            label="REDEFINIR SENHA"
+            label="Redefinir senha"
             onPress={handleResetPassword}
             loading={isSubmittingPassword}
             testID="forgot__confirm-btn"
@@ -255,19 +312,26 @@ export function ForgotPasswordScreen({ navigation }: Props) {
       )}
 
       {step === "done" && (
-        <View style={styles.section}>
-          <AuthHeader
-            icon="✅"
-            title="Senha redefinida!"
-            subtitle="Sua senha foi atualizada com sucesso. Agora você pode fazer login com a nova senha."
-          />
+        <View style={[styles.section, styles["section--done"]]}>
+          <View style={styles["success-icon"]}>
+            <MaterialCommunityIcons
+              name="check-circle"
+              size={80}
+              color={colors.successGreen}
+            />
+          </View>
+          <Text style={styles["success-title"]}>Senha redefinida!</Text>
+          <Text style={styles["success-subtitle"]}>
+            Sua senha foi atualizada com sucesso. Agora você pode fazer login
+            com a nova senha.
+          </Text>
 
           <Button
-            label="IR PARA O LOGIN"
+            label="Ir para o login"
             onPress={() => navigation.navigate("Login")}
           />
         </View>
       )}
-    </ScreenWrapper>
+    </WaveLayout>
   );
 }

@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { View, Text, Switch } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AuthNavigationProp } from "../../../types/shared/Navigation";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 import { loginThunk } from "../../../thunks/authThunks";
 import { selectIsLoading, selectAuthError } from "../../../slices/authSlice";
-import { ScreenWrapper } from "../../../components/ScreenWrapper";
+import { WaveLayout } from "../../../components/WaveLayout";
 import { AuthHeader } from "../../../components/AuthHeader";
 import { ErrorBanner } from "../../../components/ErrorBanner";
 import { FormField } from "../../../components/FormField";
@@ -12,7 +13,6 @@ import { PasswordInput } from "../../../components/PasswordInput";
 import { Button } from "../../../components/Button";
 import { TextLink } from "../../../components/TextLink";
 import { FooterRow } from "../../../components/FooterRow";
-import { LogoSvg } from "../../../components/LogoSvg";
 import { colors } from "../../../config/tokens";
 import { styles } from "./styles";
 
@@ -74,9 +74,8 @@ export function LoginScreen({ navigation }: Props) {
   }
 
   return (
-    <ScreenWrapper>
+    <WaveLayout>
       <AuthHeader
-        logoComponent={<LogoSvg size={96} />}
         title="Bem-vindo de volta"
         subtitle="Acesse sua conta para continuar"
       />
@@ -86,7 +85,13 @@ export function LoginScreen({ navigation }: Props) {
       <View style={styles["form"]}>
         <FormField
           label="Email"
-          leftIcon="✉️"
+          leftIcon={
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={18}
+              color={colors.textMuted}
+            />
+          }
           value={email}
           onChangeText={(v) => {
             setEmail(v);
@@ -104,7 +109,13 @@ export function LoginScreen({ navigation }: Props) {
 
         <PasswordInput
           label="Senha"
-          leftIcon="🔒"
+          leftIcon={
+            <MaterialCommunityIcons
+              name="lock-outline"
+              size={18}
+              color={colors.textMuted}
+            />
+          }
           value={password}
           onChangeText={(v) => {
             setPassword(v);
@@ -117,18 +128,28 @@ export function LoginScreen({ navigation }: Props) {
         />
 
         <View style={styles["options-row"]}>
-          <View style={styles["remember-row"]}>
-            <Switch
-              value={rememberMe}
-              onValueChange={setRememberMe}
-              trackColor={{ false: colors.border, true: colors.primarySwitch }}
-              thumbColor={rememberMe ? colors.primary : colors.textDisabled}
-              style={styles["switch"]}
-              accessibilityLabel="Lembrar-me"
-              testID="login__remember-switch"
-            />
+          <TouchableOpacity
+            style={styles["remember-row"]}
+            onPress={() => setRememberMe((v) => !v)}
+            accessibilityLabel="Lembrar-me"
+            testID="login__remember-switch"
+          >
+            <View
+              style={[
+                styles["checkbox"],
+                rememberMe && styles["checkbox--checked"],
+              ]}
+            >
+              {rememberMe && (
+                <MaterialCommunityIcons
+                  name="check"
+                  size={12}
+                  color={colors.white}
+                />
+              )}
+            </View>
             <Text style={styles["remember-text"]}>Lembrar-me</Text>
-          </View>
+          </TouchableOpacity>
           <TextLink
             onPress={() => navigation.navigate("ForgotPassword")}
             testID="login__forgot-link"
@@ -138,18 +159,12 @@ export function LoginScreen({ navigation }: Props) {
         </View>
 
         <Button
-          label="ENTRAR"
+          label="Entrar"
           variant="gradient"
           onPress={handleLogin}
           loading={isLoading}
           testID="login__submit-btn"
         />
-
-        <View style={styles["divider"]}>
-          <View style={styles["divider__line"]} />
-          <Text style={styles["divider__label"]}>ou</Text>
-          <View style={styles["divider__line"]} />
-        </View>
 
         <FooterRow
           text="Não tem uma conta? "
@@ -158,6 +173,6 @@ export function LoginScreen({ navigation }: Props) {
           testID="login__register-link"
         />
       </View>
-    </ScreenWrapper>
+    </WaveLayout>
   );
 }

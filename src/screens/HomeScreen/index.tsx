@@ -1,18 +1,24 @@
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TabNavigationProp } from "../../types/shared/Navigation";
-import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
-import { logoutThunk } from "../../thunks/authThunks";
+import { useAppSelector } from "../../hooks/useAppDispatch";
 import { selectUser } from "../../slices/authSlice";
+import { HeroCard } from "../../components/HeroCard";
+import { MetricCard } from "../../components/MetricCard";
 import { styles } from "./styles";
 
-type Props = {
-  navigation: TabNavigationProp<"Home">;
-};
+type Props = { navigation: TabNavigationProp<"Home"> };
 
 export function HomeScreen({ navigation }: Props) {
-  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const [balanceVisible, setBalanceVisible] = useState(true);
 
   const firstName = user?.name?.split(" ")[0] ?? "usuário";
 
@@ -23,47 +29,74 @@ export function HomeScreen({ navigation }: Props) {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* Saudação */}
-        <View style={styles.greeting}>
-          <Text style={styles["greeting__title"]}>Olá, {firstName} 👋</Text>
-          <Text style={styles["greeting__subtitle"]}>Bem-vindo de volta</Text>
+        <View style={styles.header}>
+          <View>
+            <Text style={styles["header__title"]}>Olá, {firstName}</Text>
+            <Text style={styles["header__subtitle"]}>Bem-vindo de volta</Text>
+          </View>
+          <MaterialCommunityIcons
+            name="bell-outline"
+            size={24}
+            color="#616161"
+          />
         </View>
 
-        {/* Card Saldo */}
-        <LinearGradient
-          colors={["#1E3A8A", "#3B82F6", "#60A5FA"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles["balance-card"]}
-        >
-          <Text style={styles["balance-card__label"]}>Saldo disponível</Text>
-          <Text style={styles["balance-card__value"]}>R$ 12.450,00</Text>
-        </LinearGradient>
+        <HeroCard>
+          <View style={styles["balance__top"]}>
+            <Text style={styles["balance__label"]}>Saldo disponível</Text>
+            <TouchableOpacity
+              onPress={() => setBalanceVisible((v) => !v)}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              accessibilityLabel={
+                balanceVisible ? "Ocultar saldo" : "Mostrar saldo"
+              }
+            >
+              <MaterialCommunityIcons
+                name={balanceVisible ? "eye-outline" : "eye-off-outline"}
+                size={20}
+                color="rgba(255,255,255,0.8)"
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles["balance__value"]}>
+            {balanceVisible ? "R$ 12.450,00" : "R$ ••••••"}
+          </Text>
+          <View style={styles["balance__divider"]} />
+          <View style={styles["balance__pills"]}>
+            <View style={styles["balance__pill"]}>
+              <MaterialCommunityIcons
+                name="trending-up"
+                size={14}
+                color="rgba(255,255,255,0.9)"
+              />
+              <Text style={styles["balance__pill-text"]}>+R$ 5.200</Text>
+            </View>
+            <View style={styles["balance__pill"]}>
+              <MaterialCommunityIcons
+                name="trending-down"
+                size={14}
+                color="rgba(255,255,255,0.9)"
+              />
+              <Text style={styles["balance__pill-text"]}>-R$ 2.400</Text>
+            </View>
+          </View>
+        </HeroCard>
 
-        {/* Cards de Métricas */}
+        <Text style={styles["section__label"]}>ESTE MÊS</Text>
+
         <View style={styles["metrics-row"]}>
-          <View style={[styles["metric-card"], styles["metric-card--income"]]}>
-            <Text style={styles["metric-card__label"]}>Receitas</Text>
-            <Text
-              style={[
-                styles["metric-card__value"],
-                styles["metric-card__value--income"],
-              ]}
-            >
-              R$ 5.200
-            </Text>
-          </View>
-          <View style={[styles["metric-card"], styles["metric-card--expense"]]}>
-            <Text style={styles["metric-card__label"]}>Despesas</Text>
-            <Text
-              style={[
-                styles["metric-card__value"],
-                styles["metric-card__value--expense"],
-              ]}
-            >
-              R$ 2.400
-            </Text>
-          </View>
+          <MetricCard
+            label="Receitas"
+            value="R$ 5.200"
+            icon="trending-up"
+            variant="income"
+          />
+          <MetricCard
+            label="Despesas"
+            value="R$ 2.400"
+            icon="trending-down"
+            variant="expense"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

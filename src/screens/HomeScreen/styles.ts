@@ -1,78 +1,81 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, radius, shadows } from "../../config/tokens";
+import { colors, spacing, radius } from "../../config/tokens";
 
 export const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.gray100,
+    backgroundColor: colors.gray50,
   },
   scroll: {
     flex: 1,
   },
   content: {
-    padding: spacing.md,
-    gap: spacing.md,
+    padding: spacing.lg,
+    gap: spacing.lg,
   },
-  greeting: {
-    paddingVertical: spacing.sm,
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: spacing.xs,
   },
-  greeting__title: {
-    fontSize: 24,
-    fontWeight: "bold",
+  header__title: {
+    fontSize: 22,
+    fontWeight: "700",
     color: colors.textPrimary,
   },
-  greeting__subtitle: {
-    fontSize: 14,
+  header__subtitle: {
+    fontSize: 13,
     color: colors.textMuted,
     marginTop: 2,
   },
-  "balance-card": {
-    borderRadius: radius.xl,
-    padding: spacing.lg,
-    marginVertical: spacing.xs,
-    ...shadows.md,
+  balance__top: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
   },
-  "balance-card__label": {
-    color: "#FFFFFFCC",
-    fontSize: 14,
+  balance__label: {
+    fontSize: 13,
+    color: "rgba(255,255,255,0.7)",
   },
-  "balance-card__value": {
+  balance__value: {
+    fontSize: 38,
+    fontWeight: "700",
     color: colors.white,
-    fontSize: 32,
-    fontWeight: "bold",
-    marginTop: 8,
+    marginBottom: 20,
+  },
+  balance__divider: {
+    height: 1,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    marginBottom: 16,
+  },
+  balance__pills: {
+    flexDirection: "row",
+    gap: spacing.sm,
+  },
+  balance__pill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderRadius: radius.full,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+  },
+  "balance__pill-text": {
+    fontSize: 12,
+    color: "rgba(255,255,255,0.9)",
+    fontWeight: "600",
+  },
+  section__label: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: colors.textMuted,
+    letterSpacing: 1.2,
   },
   "metrics-row": {
     flexDirection: "row",
     gap: spacing.sm,
-  },
-  "metric-card": {
-    flex: 1,
-    backgroundColor: colors.surface,
-    borderRadius: radius.xl,
-    padding: spacing.md,
-    borderLeftWidth: 4,
-    ...shadows.sm,
-  },
-  "metric-card--income": {
-    borderLeftColor: "#4CAF50",
-  },
-  "metric-card--expense": {
-    borderLeftColor: "#F44336",
-  },
-  "metric-card__label": {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
-  "metric-card__value": {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 4,
-  },
-  "metric-card__value--income": {
-    color: "#4CAF50",
-  },
-  "metric-card__value--expense": {
-    color: "#F44336",
   },
 });

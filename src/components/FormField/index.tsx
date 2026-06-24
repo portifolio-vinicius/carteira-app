@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { View, Text, TextInput, TextInputProps } from "react-native";
 import { colors } from "../../config/tokens";
 import { styles, fieldInputStyles } from "./styles";
@@ -5,7 +6,7 @@ import { styles, fieldInputStyles } from "./styles";
 type Props = TextInputProps & {
   label: string;
   error?: string;
-  leftIcon?: string;
+  leftIcon?: ReactNode;
 };
 
 export function FormField({
@@ -25,7 +26,7 @@ export function FormField({
             error ? styles["field__input-row--error"] : null,
           ]}
         >
-          <Text style={styles["field__left-icon"]}>{leftIcon}</Text>
+          <View style={styles["field__left-icon"]}>{leftIcon}</View>
           <TextInput
             style={[styles["field__input-inner"], style]}
             placeholderTextColor={colors.textPlaceholder}

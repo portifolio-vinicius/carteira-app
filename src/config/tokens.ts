@@ -76,6 +76,13 @@ export const shadows = {
     shadowRadius: 12,
     elevation: 6,
   },
+  lg: {
+    shadowColor: "#1E3A8A",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 12,
+  },
 } as const;
 
 export type GradientVariant = "growth" | "wealth" | "trust";

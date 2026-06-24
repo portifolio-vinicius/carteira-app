@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, typography } from "../../../config/tokens";
+import { colors, spacing, typography, radius } from "../../../config/tokens";
 
 export const styles = StyleSheet.create({
   form: { gap: 12 },
@@ -14,13 +14,18 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: spacing.xs,
   },
-  switch: { transform: [{ scaleX: 0.85 }, { scaleY: 0.85 }] },
-  "remember-text": { fontSize: typography.sizeSm, color: colors.textMuted },
-
-  divider: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
-  divider__line: { flex: 1, height: 1, backgroundColor: colors.border },
-  divider__label: {
-    fontSize: typography.sizeSm,
-    color: colors.textPlaceholder,
+  checkbox: {
+    width: 18,
+    height: 18,
+    borderRadius: radius.sm,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    alignItems: "center",
+    justifyContent: "center",
   },
+  "checkbox--checked": {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  "remember-text": { fontSize: typography.sizeSm, color: colors.textMuted },
 });
