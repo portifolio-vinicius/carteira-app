@@ -1,23 +1,29 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, typography } from "../../config/tokens";
+import { colors, spacing, radius, shadows } from "../../config/tokens";
 
 export const styles = StyleSheet.create({
-  screen__container: {
+  safe: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: spacing.lg,
-    backgroundColor: colors.white,
+    backgroundColor: colors.gray100,
   },
-  screen__title: {
-    fontSize: typography.sizeXl,
-    fontWeight: typography.weightBold,
-    color: colors.textPrimary,
-    marginBottom: spacing.md,
+  content: {
+    padding: spacing.md,
+    gap: spacing.sm,
   },
-  screen__info: {
-    fontSize: typography.sizeMd,
+  "info-card": {
+    backgroundColor: colors.surface,
+    borderRadius: radius.xl,
+    padding: spacing.md,
+    ...shadows.sm,
+  },
+  "info-card__label": {
+    fontSize: 12,
     color: colors.textMuted,
-    marginBottom: spacing.xl,
+    marginBottom: 4,
+  },
+  "info-card__value": {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.textPrimary,
   },
 });

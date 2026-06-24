@@ -1,4 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RouteProp } from "@react-navigation/native";
 
 export type AuthStackParamList = {
@@ -7,13 +8,17 @@ export type AuthStackParamList = {
   ForgotPassword: undefined;
 };
 
-export type MainStackParamList = {
+export type TabParamList = {
   Home: undefined;
-  Details: { userId: string };
   Profile: undefined;
 };
 
-// Alias mantido para compatibilidade com telas existentes
+export type MainStackParamList = {
+  Tabs: undefined;
+  Details: { userId: string };
+};
+
+// Alias mantido para compatibilidade
 export type RootStackParamList = MainStackParamList;
 
 export type AuthNavigationProp<T extends keyof AuthStackParamList> =
@@ -21,6 +26,9 @@ export type AuthNavigationProp<T extends keyof AuthStackParamList> =
 
 export type NavigationProp<T extends keyof MainStackParamList> =
   NativeStackNavigationProp<MainStackParamList, T>;
+
+export type TabNavigationProp<T extends keyof TabParamList> =
+  BottomTabNavigationProp<TabParamList, T>;
 
 export type RouteProps<T extends keyof MainStackParamList> = RouteProp<
   MainStackParamList,

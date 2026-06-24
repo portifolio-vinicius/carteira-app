@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors, spacing, typography } from "../../../config/tokens";
 
 export const styles = StyleSheet.create({
-  form: { gap: spacing.md },
+  form: { gap: 12 },
 
   "options-row": {
     flexDirection: "row",

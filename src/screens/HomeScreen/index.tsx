@@ -1,50 +1,71 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { NavigationProp } from "../../types/shared/Navigation";
+import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { TabNavigationProp } from "../../types/shared/Navigation";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { logoutThunk } from "../../thunks/authThunks";
 import { selectUser } from "../../slices/authSlice";
 import { styles } from "./styles";
 
 type Props = {
-  navigation: NavigationProp<"Home">;
+  navigation: TabNavigationProp<"Home">;
 };
 
 export function HomeScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
-  function handleLogout() {
-    dispatch(logoutThunk());
-  }
+  const firstName = user?.name?.split(" ")[0] ?? "usuário";
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tela Inicial</Text>
-      <Text style={styles.welcome}>Olá, {user?.name ?? "usuário"} 👋</Text>
-
-      <TouchableOpacity
-        testID="home__details-btn"
-        style={styles.button}
-        onPress={() => navigation.navigate("Details", { userId: "123" })}
+    <SafeAreaView style={styles.safe}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
       >
-        <Text style={styles["button__text"]}>Ver Detalhes</Text>
-      </TouchableOpacity>
+        {/* Saudação */}
+        <View style={styles.greeting}>
+          <Text style={styles["greeting__title"]}>Olá, {firstName} 👋</Text>
+          <Text style={styles["greeting__subtitle"]}>Bem-vindo de volta</Text>
+        </View>
 
-      <TouchableOpacity
-        testID="home__profile-btn"
-        style={[styles.button, styles["button--secondary"]]}
-        onPress={() => navigation.navigate("Profile")}
-      >
-        <Text style={styles["button__text"]}>Meu Perfil</Text>
-      </TouchableOpacity>
+        {/* Card Saldo */}
+        <LinearGradient
+          colors={["#1E3A8A", "#3B82F6", "#60A5FA"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles["balance-card"]}
+        >
+          <Text style={styles["balance-card__label"]}>Saldo disponível</Text>
+          <Text style={styles["balance-card__value"]}>R$ 12.450,00</Text>
+        </LinearGradient>
 
-      <TouchableOpacity
-        testID="home__logout-btn"
-        style={[styles.button, styles["button--logout"]]}
-        onPress={handleLogout}
-      >
-        <Text style={styles["button__text"]}>Sair</Text>
-      </TouchableOpacity>
-    </View>
+        {/* Cards de Métricas */}
+        <View style={styles["metrics-row"]}>
+          <View style={[styles["metric-card"], styles["metric-card--income"]]}>
+            <Text style={styles["metric-card__label"]}>Receitas</Text>
+            <Text
+              style={[
+                styles["metric-card__value"],
+                styles["metric-card__value--income"],
+              ]}
+            >
+              R$ 5.200
+            </Text>
+          </View>
+          <View style={[styles["metric-card"], styles["metric-card--expense"]]}>
+            <Text style={styles["metric-card__label"]}>Despesas</Text>
+            <Text
+              style={[
+                styles["metric-card__value"],
+                styles["metric-card__value--expense"],
+              ]}
+            >
+              R$ 2.400
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

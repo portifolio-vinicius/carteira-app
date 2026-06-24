@@ -9,7 +9,6 @@ import { FormField } from "../../../components/FormField";
 import { PasswordInput } from "../../../components/PasswordInput";
 import { Button } from "../../../components/Button";
 import { TextLink } from "../../../components/TextLink";
-import { LogoSvg } from "../../../components/LogoSvg";
 import { styles } from "./styles";
 
 type Props = {
@@ -151,7 +150,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
       {step === "email" && (
         <View style={styles.section}>
           <AuthHeader
-            logoComponent={<LogoSvg size={50} />}
+            icon="🔐"
             title="Recuperar senha"
             subtitle="Informe o email cadastrado e enviaremos as instruções de redefinição."
           />
@@ -192,7 +191,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
       {step === "newPassword" && (
         <View style={styles.section}>
           <AuthHeader
-            logoComponent={<LogoSvg size={50} />}
+            icon="🔑"
             title="Código enviado!"
             subtitle="Simulando o link de redefinição — defina sua nova senha abaixo."
           />
@@ -258,10 +257,9 @@ export function ForgotPasswordScreen({ navigation }: Props) {
       {step === "done" && (
         <View style={styles.section}>
           <AuthHeader
-            logoComponent={<LogoSvg size={50} />}
+            icon="✅"
             title="Senha redefinida!"
             subtitle="Sua senha foi atualizada com sucesso. Agora você pode fazer login com a nova senha."
-            variant="success"
           />
 
           <Button

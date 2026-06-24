@@ -76,9 +76,9 @@ export function LoginScreen({ navigation }: Props) {
   return (
     <ScreenWrapper>
       <AuthHeader
-        logoComponent={<LogoSvg size={50} />}
+        logoComponent={<LogoSvg size={96} />}
         title="Bem-vindo de volta"
-        subtitle="Entre na sua conta para continuar"
+        subtitle="Acesse sua conta para continuar"
       />
 
       <ErrorBanner message={error} />
@@ -86,6 +86,7 @@ export function LoginScreen({ navigation }: Props) {
       <View style={styles["form"]}>
         <FormField
           label="Email"
+          leftIcon="✉️"
           value={email}
           onChangeText={(v) => {
             setEmail(v);
@@ -103,6 +104,7 @@ export function LoginScreen({ navigation }: Props) {
 
         <PasswordInput
           label="Senha"
+          leftIcon="🔒"
           value={password}
           onChangeText={(v) => {
             setPassword(v);
@@ -137,6 +139,7 @@ export function LoginScreen({ navigation }: Props) {
 
         <Button
           label="ENTRAR"
+          variant="gradient"
           onPress={handleLogin}
           loading={isLoading}
           testID="login__submit-btn"

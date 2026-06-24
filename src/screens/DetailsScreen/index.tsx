@@ -1,6 +1,11 @@
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { NavigationProp, RouteProps } from "../../types/shared/Navigation";
-import { Button } from "../../components/Button";
 import { styles } from "./styles";
 
 type Props = {
@@ -10,15 +15,24 @@ type Props = {
 
 export function DetailsScreen({ navigation, route }: Props) {
   const { userId } = route.params;
+
+  const infoItems = [
+    { label: "Usuário ID", value: userId },
+    { label: "Status", value: "● Ativo" },
+    { label: "Último acesso", value: "24/06/2026" },
+    { label: "Plano", value: "Premium" },
+  ];
+
   return (
-    <View style={styles["screen__container"]}>
-      <Text style={styles["screen__title"]}>Detalhes</Text>
-      <Text style={styles["screen__info"]}>Usuário ID: {userId}</Text>
-      <Button
-        testID="details__back-btn"
-        label="Voltar"
-        onPress={() => navigation.goBack()}
-      />
-    </View>
+    <SafeAreaView style={styles.safe}>
+      <ScrollView contentContainerStyle={styles.content}>
+        {infoItems.map((item) => (
+          <View key={item.label} style={styles["info-card"]}>
+            <Text style={styles["info-card__label"]}>{item.label}</Text>
+            <Text style={styles["info-card__value"]}>{item.value}</Text>
+          </View>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
