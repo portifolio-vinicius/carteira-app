@@ -6,6 +6,7 @@ type Variant = "default" | "success";
 
 type Props = {
   emoji?: string;
+  icon?: string;
   imageSource?: ImageSourcePropType;
   logoComponent?: ReactNode;
   title: string;
@@ -15,6 +16,7 @@ type Props = {
 
 export function AuthHeader({
   emoji,
+  icon,
   imageSource,
   logoComponent,
   title,
@@ -23,16 +25,13 @@ export function AuthHeader({
 }: Props) {
   return (
     <View style={styles.header}>
-      <View
-        style={[
-          styles["header__icon-circle"],
-          variant === "success" && styles["header__icon-circle--success"],
-        ]}
-      >
+      <View style={styles["header__icon-card"]}>
         {logoComponent ? (
           logoComponent
         ) : imageSource ? (
           <Image source={imageSource} style={styles["header__image"]} />
+        ) : icon ? (
+          <Text style={styles["header__emoji"]}>{icon}</Text>
         ) : (
           <Text style={styles["header__emoji"]}>{emoji}</Text>
         )}

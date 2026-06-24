@@ -1,34 +1,42 @@
 import { StyleSheet } from "react-native";
-import { colors, typography, spacing, radius } from "../../config/tokens";
+import {
+  colors,
+  typography,
+  spacing,
+  radius,
+  shadows,
+} from "../../config/tokens";
 
 export const styles = StyleSheet.create({
   header: {
     alignItems: "center",
     marginBottom: spacing.lg,
   },
-  "header__icon-circle": {
-    width: 80,
-    height: 80,
-    borderRadius: radius.full,
-    backgroundColor: colors.primaryLight,
+  "header__icon-card": {
+    width: 96,
+    height: 96,
+    borderRadius: radius.xl,
+    backgroundColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: spacing.md,
-  },
-  "header__icon-circle--success": {
-    backgroundColor: colors.successGreenBg,
+    shadowColor: shadows.md.shadowColor,
+    shadowOffset: shadows.md.shadowOffset,
+    shadowOpacity: shadows.md.shadowOpacity,
+    shadowRadius: shadows.md.shadowRadius,
+    elevation: shadows.md.elevation,
   },
   header__emoji: {
-    fontSize: 36,
+    fontSize: 44,
   },
-  "header__image": {
-    width: 50,
-    height: 50,
+  header__image: {
+    width: 96,
+    height: 96,
     resizeMode: "contain",
   },
   header__title: {
-    fontSize: typography.sizeXxl,
-    fontWeight: typography.weight700,
+    fontSize: 32,
+    fontWeight: "bold",
     color: colors.textPrimary,
     marginBottom: 6,
     textAlign: "center",

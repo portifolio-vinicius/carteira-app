@@ -16,15 +16,20 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: radius.lg,
+    borderRadius: radius.xl,
+    height: 56,
     paddingHorizontal: spacing.md,
+  },
+  "field__left-icon": {
+    fontSize: 18,
+    marginRight: 8,
   },
   "field__row--error": {
     borderColor: colors.errorRed,
   },
   field__input: {
     flex: 1,
-    paddingVertical: 13,
+    height: 56,
     fontSize: typography.size15,
     color: colors.textPrimary,
   },

@@ -11,6 +11,7 @@ type Props = {
   editable?: boolean;
   accessibilityLabel?: string;
   testID?: string;
+  leftIcon?: string;
 };
 
 export function PasswordInput({
@@ -21,6 +22,7 @@ export function PasswordInput({
   editable = true,
   accessibilityLabel,
   testID,
+  leftIcon,
 }: Props) {
   const [visible, setVisible] = useState(false);
 
@@ -33,6 +35,7 @@ export function PasswordInput({
           error ? styles["field__row--error"] : null,
         ]}
       >
+        {leftIcon && <Text style={styles["field__left-icon"]}>{leftIcon}</Text>}
         <TextInput
           style={styles["field__input"]}
           placeholder="••••••••"

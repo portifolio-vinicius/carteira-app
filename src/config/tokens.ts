@@ -1,5 +1,5 @@
 export const colors = {
-  primary: "#6200EE",
+  primary: "#7C3AED",
   secondary: "#03dac6",
   danger: "#B00020",
   white: "#fff",
@@ -23,6 +23,10 @@ export const colors = {
   infoBlueBg: "#E3F2FD",
   primaryLight: "#EDE7F6",
   primarySwitch: "#BB86FC",
+  gray50: "#F8FAFC",
+  gray100: "#F1F5F9",
+  gray200: "#E2E8F0",
+  gray600: "#475569",
 } as const;
 
 export const spacing = {
@@ -52,7 +56,26 @@ export const radius = {
   sm: 5,
   md: 8,
   lg: 10,
+  xl: 16,
+  xxl: 24,
   full: 40,
+} as const;
+
+export const shadows = {
+  sm: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  md: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    elevation: 6,
+  },
 } as const;
 
 export type GradientVariant = "growth" | "wealth" | "trust";
